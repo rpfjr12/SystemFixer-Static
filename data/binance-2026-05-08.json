@@ -1,0 +1,30 @@
+[
+  {
+    "severity": "MEDIUM",
+    "title": "Missing Strict-Transport-Security (HSTS)",
+    "target": "https://api.binance.com",
+    "program": "Binance",
+    "date": "2026-05-08"
+  },
+  {
+    "severity": "MEDIUM",
+    "title": "Missing Content-Security-Policy (CSP)",
+    "target": "https://api.binance.com",
+    "program": "Binance",
+    "date": "2026-05-08"
+  },
+  {
+    "severity": "MEDIUM",
+    "title": "Missing X-Frame-Options",
+    "target": "https://api.binance.com",
+    "program": "Binance",
+    "date": "2026-05-08"
+  },
+  {
+    "severity": "LOW",
+    "title": "Server version disclosure",
+    "target": "https://api.binance.com",
+    "program": "Binance",
+    "date": "2026-05-08"
+  }
+]

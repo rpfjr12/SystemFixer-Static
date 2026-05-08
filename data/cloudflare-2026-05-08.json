@@ -1,0 +1,16 @@
+[
+  {
+    "severity": "MEDIUM",
+    "title": "Missing X-Frame-Options",
+    "target": "https://api.cloudflare.com",
+    "program": "Cloudflare",
+    "date": "2026-05-08"
+  },
+  {
+    "severity": "LOW",
+    "title": "Server version disclosure",
+    "target": "https://api.cloudflare.com",
+    "program": "Cloudflare",
+    "date": "2026-05-08"
+  }
+]

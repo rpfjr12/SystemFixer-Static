@@ -1,0 +1,9 @@
+[
+  {
+    "severity": "LOW",
+    "title": "Server version disclosure",
+    "target": "https://api.hackerone.com",
+    "program": "HackerOne",
+    "date": "2026-05-08"
+  }
+]

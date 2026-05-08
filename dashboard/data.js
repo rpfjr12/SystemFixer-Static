@@ -166,5 +166,12 @@ window.FINDINGS = [
     "target": "https://api.paypal.com",
     "program": "PayPal",
     "date": "2026-05-08"
+  },
+  {
+    "severity": "LOW",
+    "title": "Server version disclosure",
+    "target": "https://api.paypal.com",
+    "program": "PayPal",
+    "date": "2026-05-08"
   }
 ]
