@@ -1,0 +1,14 @@
+[
+  {
+    "id": "acme",
+    "name": "Acme Corp",
+    "platform": "HackerOne",
+    "scope": [
+      "https://acme.com",
+      "https://api.acme.com"
+    ],
+    "active": true,
+    "added": "2026-05-08",
+    "notes": "Max payout $5k"
+  }
+]
