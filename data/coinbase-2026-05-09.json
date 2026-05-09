@@ -1,19 +1,5 @@
 [
   {
-    "severity": "MEDIUM",
-    "title": "Missing Content-Security-Policy (CSP)",
-    "target": "https://api.coinbase.com",
-    "program": "Coinbase",
-    "date": "2026-05-09"
-  },
-  {
-    "severity": "MEDIUM",
-    "title": "Missing X-Frame-Options",
-    "target": "https://api.coinbase.com",
-    "program": "Coinbase",
-    "date": "2026-05-09"
-  },
-  {
     "severity": "LOW",
     "title": "Server version disclosure",
     "target": "https://api.coinbase.com",
