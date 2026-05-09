@@ -1,0 +1,16 @@
+[
+  {
+    "severity": "MEDIUM",
+    "title": "Missing Strict-Transport-Security (HSTS)",
+    "target": "https://api.shopify.com",
+    "program": "Shopify",
+    "date": "2026-05-09"
+  },
+  {
+    "severity": "LOW",
+    "title": "Server version disclosure",
+    "target": "https://api.shopify.com",
+    "program": "Shopify",
+    "date": "2026-05-09"
+  }
+]
