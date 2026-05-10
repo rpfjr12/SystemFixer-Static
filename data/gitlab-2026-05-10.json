@@ -1,0 +1,23 @@
+[
+  {
+    "severity": "MEDIUM",
+    "title": "Missing Strict-Transport-Security (HSTS)",
+    "target": "https://api.gitlab.com",
+    "program": "GitLab",
+    "date": "2026-05-10"
+  },
+  {
+    "severity": "MEDIUM",
+    "title": "Missing Content-Security-Policy (CSP)",
+    "target": "https://api.gitlab.com",
+    "program": "GitLab",
+    "date": "2026-05-10"
+  },
+  {
+    "severity": "MEDIUM",
+    "title": "Missing X-Frame-Options",
+    "target": "https://api.gitlab.com",
+    "program": "GitLab",
+    "date": "2026-05-10"
+  }
+]

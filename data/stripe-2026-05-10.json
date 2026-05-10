@@ -1,0 +1,16 @@
+[
+  {
+    "severity": "MEDIUM",
+    "title": "Missing X-Frame-Options",
+    "target": "https://api.stripe.com",
+    "program": "Stripe",
+    "date": "2026-05-10"
+  },
+  {
+    "severity": "LOW",
+    "title": "Server version disclosure",
+    "target": "https://api.stripe.com",
+    "program": "Stripe",
+    "date": "2026-05-10"
+  }
+]
