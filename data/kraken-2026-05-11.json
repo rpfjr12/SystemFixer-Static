@@ -1,0 +1,16 @@
+[
+  {
+    "severity": "MEDIUM",
+    "title": "Missing Content-Security-Policy (CSP)",
+    "target": "https://api.kraken.com",
+    "program": "Kraken",
+    "date": "2026-05-11"
+  },
+  {
+    "severity": "LOW",
+    "title": "Server version disclosure",
+    "target": "https://api.kraken.com",
+    "program": "Kraken",
+    "date": "2026-05-11"
+  }
+]
