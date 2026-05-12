@@ -700,13 +700,6 @@ window.FINDINGS = [
     "date": "2026-05-12"
   },
   {
-    "severity": "LOW",
-    "title": "Server version disclosure",
-    "target": "https://api.paypal.com",
-    "program": "PayPal",
-    "date": "2026-05-12"
-  },
-  {
     "severity": "MEDIUM",
     "title": "Missing Strict-Transport-Security (HSTS)",
     "target": "https://api.binance.com",
