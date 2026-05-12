@@ -1,0 +1,16 @@
+[
+  {
+    "severity": "MEDIUM",
+    "title": "Missing Strict-Transport-Security (HSTS)",
+    "target": "https://api.digitalocean.com",
+    "program": "DigitalOcean",
+    "date": "2026-05-12"
+  },
+  {
+    "severity": "LOW",
+    "title": "Server version disclosure",
+    "target": "https://api.digitalocean.com",
+    "program": "DigitalOcean",
+    "date": "2026-05-12"
+  }
+]

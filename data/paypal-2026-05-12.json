@@ -1,0 +1,23 @@
+[
+  {
+    "severity": "MEDIUM",
+    "title": "Missing Content-Security-Policy (CSP)",
+    "target": "https://api.paypal.com",
+    "program": "PayPal",
+    "date": "2026-05-12"
+  },
+  {
+    "severity": "MEDIUM",
+    "title": "Missing X-Frame-Options",
+    "target": "https://api.paypal.com",
+    "program": "PayPal",
+    "date": "2026-05-12"
+  },
+  {
+    "severity": "LOW",
+    "title": "Server version disclosure",
+    "target": "https://api.paypal.com",
+    "program": "PayPal",
+    "date": "2026-05-12"
+  }
+]
