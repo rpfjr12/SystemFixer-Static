@@ -1,198 +1,140 @@
 import os
 import json
-from collections import defaultdict
 from datetime import datetime
 
 DATA_DIR = "data"
 REPORTS_DIR = "reports"
 
-# Which severities to keep by default
-KEEP_SEVERITIES = {"MEDIUM", "HIGH", "CRITICAL"}
+# -----------------------------
+# STRICT MODE FILTERING LOGIC
+# -----------------------------
 
-# Titles to drop as too noisy / low value
-IGNORE_TITLES = {
-    "Server version disclosure",  # often informational
-}
+def is_ui_endpoint(finding):
+    """Reject API endpoints, JSON-only endpoints, and anything non-interactive."""
+    url = finding.get("target", "").lower()
 
-def load_all_findings():
-    findings = []
-    if not os.path.isdir(DATA_DIR):
-        return findings
-
-    for file in os.listdir(DATA_DIR):
-        if not file.endswith(".json"):
-            continue
-        path = os.path.join(DATA_DIR, file)
-        try:
-            with open(path, "r") as f:
-                data = json.load(f)
-                if isinstance(data, list):
-                    findings.extend(data)
-        except Exception:
-            # Skip malformed files
-            continue
-    return findings
-
-def is_worth_reporting(f):
-    """
-    Decide if a finding is worth keeping.
-    You can tune this over time.
-    """
-    severity = f.get("severity", "").upper().strip()
-    title = f.get("title", "").strip()
-
-    if title in IGNORE_TITLES:
+    # API endpoints are never reportable for clickjacking, CSP, HSTS, etc.
+    if "/api" in url or "api." in url:
         return False
 
-    if severity not in KEEP_SEVERITIES:
+    # JSON-only endpoints are not exploitable
+    content_type = finding.get("content_type", "").lower()
+    if "json" in content_type:
         return False
 
-    # You can add more logic here later if you want
     return True
 
-def dedupe_findings(findings):
-    """
-    Remove duplicates based on (program, target, title).
-    """
-    seen = set()
-    unique = []
-    for f in findings:
-        key = (
-            f.get("program", "").strip(),
-            f.get("target", "").strip(),
-            f.get("title", "").strip(),
-        )
-        if key in seen:
-            continue
-        seen.add(key)
-        unique.append(f)
-    return unique
 
-def group_by_program(findings):
-    grouped = defaultdict(list)
-    for f in findings:
-        program = f.get("program", "UNKNOWN").strip()
-        grouped[program].append(f)
-    return grouped
+def is_reportable_issue(finding):
+    """Strict mode: only keep issues that programs actually pay for."""
+    issue = finding.get("issue", "").lower()
 
-def format_markdown_report(program, findings):
-    """
-    Build a Markdown report for a single program.
-    """
-    if not findings:
-        return ""
+    # Remove missing header noise
+    missing_header_keywords = [
+        "missing x-frame-options",
+        "missing content-security-policy",
+        "missing strict-transport-security",
+        "missing x-content-type-options",
+        "missing referrer-policy",
+    ]
+    if any(k in issue for k in missing_header_keywords):
+        return False
 
-    # Sort by severity then title
-    severity_order = {"CRITICAL": 0, "HIGH": 1, "MEDIUM": 2, "LOW": 3}
-    findings_sorted = sorted(
-        findings,
-        key=lambda f: (
-            severity_order.get(f.get("severity", "").upper(), 99),
-            f.get("title", ""),
-        ),
-    )
+    # Remove low/no-impact issues
+    if "informational" in issue or "low" in issue:
+        return False
 
-    date_str = datetime.utcnow().strftime("%Y-%m-%d")
+    # Keep only issues with real impact
+    high_value_keywords = [
+        "xss",
+        "open redirect",
+        "cors misconfiguration",
+        "sensitive file exposure",
+        "directory listing",
+        "idOR",
+        "authentication bypass",
+        "broken access control",
+        "csrf",
+        "sql injection",
+        "rce",
+        "ssrf",
+        "exposed admin panel",
+        "leak",
+        "token",
+        "credential",
+        "misconfiguration with impact",
+    ]
 
-    lines = []
-    lines.append(f"# {program} – Automated Findings")
-    lines.append("")
-    lines.append(f"**Date:** {date_str}")
-    lines.append(f"**Total findings:** {len(findings_sorted)}")
-    lines.append("")
-    lines.append("## Summary by severity")
-    counts = defaultdict(int)
-    for f in findings_sorted:
-        counts[f.get("severity", "").upper()] += 1
-    for sev in sorted(counts.keys(), key=lambda s: severity_order.get(s, 99)):
-        lines.append(f"- **{sev}:** {counts[sev]}")
-    lines.append("")
+    return any(k in issue for k in high_value_keywords)
 
-    lines.append("## Findings")
-    lines.append("")
-    for idx, f in enumerate(findings_sorted, start=1):
-        sev = f.get("severity", "").upper()
-        title = f.get("title", "")
-        target = f.get("target", "")
-        date = f.get("date", "")
-        lines.append(f"### {idx}. {title} ({sev})")
-        lines.append("")
-        lines.append(f"- **Target:** `{target}`")
-        lines.append(f"- **Program:** {program}")
-        lines.append(f"- **Date detected:** {date}")
-        lines.append("")
-        lines.append("**Description:**")
-        lines.append(f"- Automated detection of: **{title}**.")
-        lines.append("")
-        lines.append("**Potential impact (generic):**")
-        if "HSTS" in title:
-            lines.append("- Without HSTS, users may be exposed to downgrade or MITM attacks if they ever hit HTTP.")
-        elif "Content-Security-Policy" in title:
-            lines.append("- Without CSP, the application has reduced protection against XSS and content injection.")
-        elif "X-Frame-Options" in title:
-            lines.append("- Without X-Frame-Options, the application may be vulnerable to clickjacking.")
-        elif "Cookie missing HttpOnly" in title:
-            lines.append("- Without HttpOnly, cookies may be accessible to client-side scripts, increasing XSS impact.")
-        else:
-            lines.append("- This issue may increase the attack surface or reduce defense-in-depth.")
-        lines.append("")
-        lines.append("**Suggested remediation (generic):**")
-        if "HSTS" in title:
-            lines.append("- Add a Strict-Transport-Security header with an appropriate max-age and includeSubDomains.")
-        elif "Content-Security-Policy" in title:
-            lines.append("- Define and deploy a Content-Security-Policy that restricts script, frame, and resource sources.")
-        elif "X-Frame-Options" in title:
-            lines.append("- Add an X-Frame-Options or equivalent CSP frame-ancestors directive to prevent framing.")
-        elif "Cookie missing HttpOnly" in title:
-            lines.append("- Mark sensitive cookies with the HttpOnly flag to prevent access from client-side scripts.")
-        else:
-            lines.append("- Apply standard hardening guidance for this class of issue.")
-        lines.append("")
-        lines.append("---")
-        lines.append("")
 
-    return "\n".join(lines)
+def strict_filter(finding):
+    """Apply ALL strict-mode rules."""
+    return is_ui_endpoint(finding) and is_reportable_issue(finding)
 
-def write_reports(grouped_findings):
-    os.makedirs(REPORTS_DIR, exist_ok=True)
-    date_str = datetime.utcnow().strftime("%Y-%m-%d")
 
-    for program, findings in grouped_findings.items():
-        if not findings:
-            continue
-        safe_program = "".join(c for c in program if c.isalnum() or c in ("-", "_")).strip()
-        if not safe_program:
-            safe_program = "UNKNOWN"
-        filename = f"{safe_program}-{date_str}.md"
-        path = os.path.join(REPORTS_DIR, filename)
-        content = format_markdown_report(program, findings)
-        if not content.strip():
-            continue
-        with open(path, "w", encoding="utf-8") as f:
-            f.write(content)
-        print(f"Wrote report: {path}")
+# -----------------------------
+# REPORT GENERATION
+# -----------------------------
 
-def main():
-    all_findings = load_all_findings()
-    if not all_findings:
-        print("No findings found in data/.")
-        return
-
-    # Filter to worth-reporting only
-    filtered = [f for f in all_findings if is_worth_reporting(f)]
+def generate_report(program, findings):
+    """Generate a strict-mode filtered report."""
+    filtered = [f for f in findings if strict_filter(f)]
 
     if not filtered:
-        print("No findings considered worth reporting after filtering.")
-        return
+        return None  # No reportable findings
 
-    # Deduplicate
-    unique = dedupe_findings(filtered)
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    report = f"# {program} – Automated Findings\n\n"
+    report += f"**Date:** {date_str}\n"
+    report += f"**Total findings:** {len(filtered)}\n\n"
 
-    # Group by program
-    grouped = group_by_program(unique)
+    # Severity summary
+    severities = {}
+    for f in filtered:
+        sev = f.get("severity", "UNKNOWN").upper()
+        severities[sev] = severities.get(sev, 0) + 1
 
-    # Write Markdown reports
-    write_reports(grouped)
+    report += "## Summary by severity\n"
+    for sev, count in severities.items():
+        report += f"- **{sev}:** {count}\n"
+    report += "\n## Findings\n\n"
+
+    # Detailed findings
+    for i, f in enumerate(filtered, 1):
+        report += f"### {i}. {f.get('issue', 'Unknown Issue')} ({f.get('severity', 'UNKNOWN')})\n\n"
+        report += f"- **Target:** `{f.get('target', '')}`\n"
+        report += f"- **Program:** {program}\n"
+        report += f"- **Date detected:** {f.get('date', '')}\n\n"
+        report += f"**Description:**\n- {f.get('description', '')}\n\n"
+        report += f"**Impact:**\n- {f.get('impact', '')}\n\n"
+        report += f"**Suggested remediation:**\n- {f.get('remediation', '')}\n\n"
+        report += "---\n\n"
+
+    return report
+
+
+def main():
+    if not os.path.exists(REPORTS_DIR):
+        os.makedirs(REPORTS_DIR)
+
+    for filename in os.listdir(DATA_DIR):
+        if not filename.endswith(".json"):
+            continue
+
+        program = filename.split("-")[0].capitalize()
+        path = os.path.join(DATA_DIR, filename)
+
+        with open(path, "r") as f:
+            findings = json.load(f)
+
+        report = generate_report(program, findings)
+        if report:
+            report_path = os.path.join(REPORTS_DIR, filename.replace(".json", ".md"))
+            with open(report_path, "w") as out:
+                out.write(report)
+
 
 if __name__ == "__main__":
     main()
+
