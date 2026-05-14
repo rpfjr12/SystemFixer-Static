@@ -1099,6 +1099,13 @@ window.FINDINGS = [
     "date": "2026-05-14"
   },
   {
+    "severity": "LOW",
+    "title": "Server version disclosure",
+    "target": "https://api.paypal.com",
+    "program": "PayPal",
+    "date": "2026-05-14"
+  },
+  {
     "severity": "MEDIUM",
     "title": "Missing Content-Security-Policy (CSP)",
     "target": "https://api.paypal.com",
