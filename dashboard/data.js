@@ -751,14 +751,14 @@ window.FINDINGS = [
   {
     "severity": "MEDIUM",
     "title": "Missing X-Frame-Options",
-    "target": "https://api.dropbox.com",
+    "target": "https://api.dropboxapi.com",
     "program": "Dropbox",
     "date": "2026-05-14"
   },
   {
     "severity": "LOW",
     "title": "Server version disclosure",
-    "target": "https://api.dropbox.com",
+    "target": "https://api.dropboxapi.com",
     "program": "Dropbox",
     "date": "2026-05-14"
   },
