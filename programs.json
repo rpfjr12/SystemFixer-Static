@@ -8,8 +8,8 @@
       "https://api.coinbase.com"
     ],
     "active": true,
-    "added": "2026-05-08",
-    "notes": "Elite fast-payer; crypto exchange; constant deploys"
+    "added": "2026-05-14",
+    "notes": "Elite crypto; fast triage; high payouts"
   },
   {
     "id": "kraken",
@@ -20,20 +20,20 @@
       "https://api.kraken.com"
     ],
     "active": true,
-    "added": "2026-05-08",
-    "notes": "Elite fast triage; automation-friendly"
+    "added": "2026-05-14",
+    "notes": "Elite crypto; consistent payouts"
   },
   {
     "id": "binance",
     "name": "Binance",
-    "platform": "HackerOne",
+    "platform": "Bugcrowd",
     "scope": [
       "https://binance.com",
       "https://api.binance.com"
     ],
     "active": true,
-    "added": "2026-05-08",
-    "notes": "High-volume crypto; fast payouts"
+    "added": "2026-05-14",
+    "notes": "High‑value crypto; large attack surface"
   },
   {
     "id": "stripe",
@@ -44,8 +44,8 @@
       "https://api.stripe.com"
     ],
     "active": true,
-    "added": "2026-05-08",
-    "notes": "Fintech API; extremely fast triage"
+    "added": "2026-05-14",
+    "notes": "Fintech; extremely high bounty ceiling"
   },
   {
     "id": "paypal",
@@ -56,68 +56,8 @@
       "https://api.paypal.com"
     ],
     "active": true,
-    "added": "2026-05-08",
-    "notes": "Huge surface; fast validation"
-  },
-  {
-    "id": "shopify",
-    "name": "Shopify",
-    "platform": "HackerOne",
-    "scope": [
-      "https://shopify.com",
-      "https://api.shopify.com"
-    ],
-    "active": true,
-    "added": "2026-05-08",
-    "notes": "SaaS; constant deploys; automation-friendly"
-  },
-  {
-    "id": "gitlab",
-    "name": "GitLab",
-    "platform": "HackerOne",
-    "scope": [
-      "https://gitlab.com",
-      "https://api.gitlab.com"
-    ],
-    "active": true,
-    "added": "2026-05-08",
-    "notes": "DevOps SaaS; high-value findings"
-  },
-  {
-    "id": "dropbox",
-    "name": "Dropbox",
-    "platform": "HackerOne",
-    "scope": [
-      "https://dropbox.com",
-      "https://api.dropbox.com"
-    ],
-    "active": true,
-    "added": "2026-05-08",
-    "notes": "Fast triage; strong security team"
-  },
-  {
-    "id": "hackerone",
-    "name": "HackerOne",
-    "platform": "HackerOne",
-    "scope": [
-      "https://hackerone.com",
-      "https://api.hackerone.com"
-    ],
-    "active": true,
-    "added": "2026-05-08",
-    "notes": "Meta program; fast payouts"
-  },
-  {
-    "id": "okta",
-    "name": "Okta",
-    "platform": "HackerOne",
-    "scope": [
-      "https://okta.com",
-      "https://api.okta.com"
-    ],
-    "active": true,
-    "added": "2026-05-08",
-    "notes": "Identity SaaS; constant deploys"
+    "added": "2026-05-14",
+    "notes": "Fintech; fast triage; stable APIs"
   },
   {
     "id": "cloudflare",
@@ -128,8 +68,8 @@
       "https://api.cloudflare.com"
     ],
     "active": true,
-    "added": "2026-05-08",
-    "notes": "High-speed triage; automation-friendly"
+    "added": "2026-05-14",
+    "notes": "Cloud infra; strong bounty program"
   },
   {
     "id": "digitalocean",
@@ -140,7 +80,31 @@
       "https://api.digitalocean.com"
     ],
     "active": true,
-    "added": "2026-05-08",
-    "notes": "Cloud hosting; fast validation"
+    "added": "2026-05-14",
+    "notes": "Cloud infra; consistent payouts"
+  },
+  {
+    "id": "gitlab",
+    "name": "GitLab",
+    "platform": "HackerOne",
+    "scope": [
+      "https://gitlab.com",
+      "https://api.gitlab.com"
+    ],
+    "active": true,
+    "added": "2026-05-14",
+    "notes": "Developer platform; large surface area"
+  },
+  {
+    "id": "dropbox",
+    "name": "Dropbox",
+    "platform": "HackerOne",
+    "scope": [
+      "https://dropbox.com",
+      "https://api.dropboxapi.com"
+    ],
+    "active": true,
+    "added": "2026-05-14",
+    "notes": "Developer platform; stable APIs"
   }
 ]
