@@ -1,0 +1,16 @@
+[
+  {
+    "severity": "MEDIUM",
+    "title": "Missing X-Frame-Options",
+    "target": "https://api.dropboxapi.com",
+    "program": "Dropbox",
+    "date": "2026-05-15"
+  },
+  {
+    "severity": "LOW",
+    "title": "Server version disclosure",
+    "target": "https://api.dropboxapi.com",
+    "program": "Dropbox",
+    "date": "2026-05-15"
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "severity": "LOW",
+    "title": "Server version disclosure",
+    "target": "https://api.coinbase.com",
+    "program": "Coinbase",
+    "date": "2026-05-15"
+  }
+]
