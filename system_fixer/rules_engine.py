@@ -1,85 +1,57 @@
 import json
 import os
 
-RULES_PATH = "system-fixer/program_rules.json"
+RULES_FILE = "system_fixer/program_rules.json"
 
-def load_program_rules():
-    """
-    Load program-specific rules from JSON.
-    If the file does not exist, return an empty ruleset.
-    """
-    if not os.path.exists(RULES_PATH):
+def load_rules():
+    if not os.path.exists(RULES_FILE):
+        print(f"[rules_engine] No rules file found at {RULES_FILE}, using empty ruleset")
         return {}
 
-    with open(RULES_PATH, "r") as f:
-        return json.load(f)
+    try:
+        with open(RULES_FILE, "r", encoding="utf-8") as f:
+            rules = json.load(f)
+            print(f"[rules_engine] Loaded rules for {len(rules)} programs")
+            return rules
+    except Exception as e:
+        print(f"[rules_engine] Error loading rules: {e}")
+        return {}
 
+def apply_program_rules(finding, rules):
+    program = finding.get("program", "")
+    if program not in rules:
+        return finding  # no rules for this program
 
-def severity_value(sev):
-    """
-    Convert severity labels to numeric values for comparison.
-    """
-    sev = sev.upper()
-    mapping = {
-        "CRITICAL": 4,
-        "HIGH": 3,
-        "MEDIUM": 2,
-        "LOW": 1,
-        "INFO": 0
-    }
-    return mapping.get(sev, 0)
+    program_rules = rules[program]
 
+    # Apply exclusions
+    excluded_tags = program_rules.get("exclude_tags", [])
+    intel = finding.get("intelligence", {})
+    tags = intel.get("tags", [])
 
-def meets_severity_threshold(program, severity):
-    """
-    Check if a finding meets the minimum severity required by the program.
-    Default strict mode: MEDIUM+
-    """
-    rules = load_program_rules()
-    program_key = program.lower()
+    if any(tag in excluded_tags for tag in tags):
+        finding["excluded_by_rules"] = True
+        return finding
 
-    if program_key not in rules:
-        return severity_value(severity) >= severity_value("MEDIUM")
+    # Apply severity boosts
+    severity_boosts = program_rules.get("severity_boosts", {})
+    sev = finding.get("severity", "")
 
-    min_required = rules[program_key].get("min_severity", "MEDIUM")
-    return severity_value(severity) >= severity_value(min_required)
+    if sev in severity_boosts:
+        finding["severity"] = severity_boosts[sev]
 
+    # Apply money score boosts
+    money_boost = program_rules.get("money_boost", 0)
+    finding["money_score"] = finding.get("money_score", 0) + money_boost
 
-def is_allowed_issue_type(program, issue_type):
-    """
-    Check if a finding's issue type is allowed for the program.
-    If no rules exist, allow all issue types.
-    """
-    rules = load_program_rules()
-    program_key = program.lower()
+    return finding
 
-    if program_key not in rules:
-        return True
-
-    allowed = rules[program_key].get("allowed_issue_types", [])
-    if not allowed:
-        return True
-
-    return issue_type.lower() in [a.lower() for a in allowed]
-
-
-def apply_program_rules(program, findings):
-    """
-    Apply all program-specific rules to a list of findings.
-    Filters out findings that do not meet severity or issue-type requirements.
-    """
-    filtered = []
+def apply_rules_to_all(findings):
+    rules = load_rules()
+    updated = []
 
     for f in findings:
-        sev = f.get("severity", "LOW")
-        issue_type = f.get("type", "unknown")
+        updated.append(apply_program_rules(f, rules))
 
-        if not meets_severity_threshold(program, sev):
-            continue
-
-        if not is_allowed_issue_type(program, issue_type):
-            continue
-
-        filtered.append(f)
-
-    return filtered
+    print(f"[rules_engine] Applied rules to {len(updated)} findings")
+    return updated
