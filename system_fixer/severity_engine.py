@@ -1,32 +1,21 @@
-import json
-import os
+from system_fixer.severity_scoring import score_severity
+from system_fixer.intelligence_enricher import enrich_findings
+from system_fixer.rules_engine import apply_rules_to_all
 
-RULES_PATH = "system-fixer/program_rules.json"
+def run_severity_engine(findings):
+    print("[severity_engine] Starting severity engine...")
 
-def load_program_rules():
-    if not os.path.exists(RULES_PATH):
-        return {}
-    with open(RULES_PATH, "r") as f:
-        return json.load(f)
+    # Step 1 — Normalize severity labels
+    findings = score_severity(findings)
+    print("[severity_engine] Severity normalized")
 
-def severity_value(sev):
-    sev = sev.upper()
-    mapping = {
-        "CRITICAL": 4,
-        "HIGH": 3,
-        "MEDIUM": 2,
-        "LOW": 1,
-        "INFO": 0
-    }
-    return mapping.get(sev, 0)
+    # Step 2 — Add intelligence metadata
+    findings = enrich_findings(findings)
+    print("[severity_engine] Intelligence enriched")
 
-def meets_severity_threshold(program, severity):
-    rules = load_program_rules()
-    program_key = program.lower()
+    # Step 3 — Apply program-specific rules
+    findings = apply_rules_to_all(findings)
+    print("[severity_engine] Program rules applied")
 
-    if program_key not in rules:
-        # default strict mode: MEDIUM+
-        return severity_value(severity) >= severity_value("MEDIUM")
-
-    min_required = rules[program_key].get("min_severity", "MEDIUM")
-    return severity_value(severity) >= severity_value(min_required)
+    print("[severity_engine] Severity engine complete")
+    return findings
