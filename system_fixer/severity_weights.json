@@ -1,6 +1,7 @@
 {
+    "CRITICAL": 5,
+    "HIGH": 4,
+    "MEDIUM": 3,
     "LOW": 1,
-    "MEDIUM": 2,
-    "HIGH": 3,
-    "CRITICAL": 5
+    "UNRATED": 0
 }
