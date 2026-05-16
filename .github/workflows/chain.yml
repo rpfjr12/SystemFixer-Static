@@ -2,7 +2,7 @@ name: Chain Scanner to Pipeline
 
 on:
   workflow_run:
-    workflows: ["Fetch Programs", "Autonomous Daily Scan"]
+    workflows: ["Autonomous Daily Scan", "Fetch Programs"]
     types:
       - completed
 
