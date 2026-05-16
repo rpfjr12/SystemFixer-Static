@@ -1,12 +1,22 @@
-from system_fixer.findings_loader import load_findings
-from system_fixer.findings_normalizer import normalize_finding
-from system_fixer.validation import is_valid_finding
-from system_fixer.strict_mode import apply_strict_mode
+def run_pipeline():
+    print("[pipeline] Starting unified analysis pipeline...")
 
-def run_pipeline(program, findings_path):
-    raw = load_findings(findings_path)
-    if not raw:
-        return []
+    findings = load_findings()
+    print(f"[pipeline] Loaded {len(findings)} raw findings")
 
-    normalized = [normalize_finding(f) for f in raw if is_valid_finding(f)]
-    return apply_strict_mode(program, normalized)
+    findings = normalize_findings(findings)
+    print("[pipeline] Normalized findings")
+
+    findings = filter_false_positives(findings)
+    print("[pipeline] Filtered false positives")
+
+    findings = score_severity(findings)
+    print("[pipeline] Scored severity")
+
+    findings = enrich_findings(findings)
+    print("[pipeline] Enriched findings with intelligence")
+
+    write_output(findings)
+    print("[pipeline] Wrote processed findings")
+
+    print("[pipeline] Pipeline complete")
