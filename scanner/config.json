@@ -1,0 +1,20 @@
+{
+  "sources": {
+    "hackerone": true,
+    "bugcrowd": true,
+    "intigriti": true,
+    "yeswehack": true
+  },
+  "fallback_programs": [
+    "https://cloudflare.com",
+    "https://stripe.com",
+    "https://paypal.com",
+    "https://squareup.com",
+    "https://shopify.com",
+    "https://coinbase.com",
+    "https://kraken.com",
+    "https://okta.com",
+    "https://zoom.us",
+    "https://dropbox.com"
+  ]
+}
