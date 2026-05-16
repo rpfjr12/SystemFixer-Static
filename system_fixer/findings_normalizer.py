@@ -1,10 +1,19 @@
-def normalize_finding(f):
-    return {
-        "issue": f.get("issue", "").strip(),
-        "severity": f.get("severity", "LOW").strip(),
-        "impact": f.get("impact", "").strip(),
-        "description": f.get("description", "").strip(),
-        "target": f.get("target", "").strip(),
-        "content_type": f.get("content_type", "").strip(),
-        "source": f.get("source", "module").strip()
-    }
+def normalize_findings(findings):
+    normalized = []
+
+    for f in findings:
+        n = {
+            "program": f.get("program", "Unknown Program"),
+            "target": f.get("target", "Unknown Target"),
+            "title": f.get("title", "Untitled Finding"),
+            "description": f.get("description", ""),
+            "reproduction_steps": f.get("reproduction_steps", ""),
+            "impact": f.get("impact", ""),
+            "severity": f.get("severity", "Unrated"),
+            "exploitability_score": f.get("exploitability_score", 1),
+            "raw": f  # keep original for debugging
+        }
+        normalized.append(n)
+
+    print(f"[findings_normalizer] Normalized {len(normalized)} findings")
+    return normalized
