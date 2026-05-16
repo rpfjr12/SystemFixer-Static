@@ -1,23 +1,12 @@
-import os
-import json
-from system_fixer.report_filter import filter_findings
+from system_fixer.report_generator_integration import run_report_generation
 
-def generate_filtered_report(program, findings):
-    filtered = filter_findings(findings, program)
+def patched_generate_reports(findings):
+    """
+    Compatibility wrapper for older modules that still call
+    `patched_generate_reports` instead of the new integration layer.
 
-    if not filtered:
-        return None
-
-    report = []
-    report.append(f"# {program} – Strict Mode Findings\n")
-    report.append(f"Total: {len(filtered)}\n")
-
-    for f in filtered:
-        report.append(f"## {f.get('issue','Unknown')}")
-        report.append(f"- Target: {f.get('target','')}")
-        report.append(f"- Severity: {f.get('severity','')}")
-        report.append(f"- Impact: {f.get('impact','')}")
-        report.append(f"- Description: {f.get('description','')}")
-        report.append("")
-
-    return "\n".join(report)
+    This ensures the system remains stable even if older components
+    haven't been updated yet.
+    """
+    print("[report_generator_patch] Using compatibility wrapper")
+    return run_report_generation(findings)
