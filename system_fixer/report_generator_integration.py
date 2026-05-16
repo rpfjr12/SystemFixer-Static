@@ -1,31 +1,15 @@
-import os
-import json
-from system_fixer.report_filter import filter_findings
+from system_fixer.report_filter import filter_for_reporting
+from system_fixer.report_generator import generate_reports
 
-def load_findings(path):
-    with open(path, "r") as f:
-        return json.load(f)
+def run_report_generation(findings):
+    print("[report_generator_integration] Starting report generation pipeline...")
 
-def generate_strict_report(program, input_path, output_path):
-    findings = load_findings(input_path)
-    filtered = filter_findings(findings, program)
+    # Filter findings to only those eligible for reporting
+    filtered = filter_for_reporting(findings)
+    print(f"[report_generator_integration] {len(filtered)} findings eligible for reporting")
 
-    if not filtered:
-        return None
+    # Generate payout-ready Markdown reports
+    generate_reports(filtered)
 
-    lines = []
-    lines.append(f"# {program} – Strict Mode Report\n")
-    lines.append(f"Total Findings: {len(filtered)}\n")
-
-    for f in filtered:
-        lines.append(f"## {f.get('issue','Unknown')}")
-        lines.append(f"- Target: {f.get('target','')}")
-        lines.append(f"- Severity: {f.get('severity','')}")
-        lines.append(f"- Impact: {f.get('impact','')}")
-        lines.append(f"- Description: {f.get('description','')}")
-        lines.append("")
-
-    with open(output_path, "w") as out:
-        out.write("\n".join(lines))
-
-    return True
+    print("[report_generator_integration] Report generation complete")
+    return filtered
