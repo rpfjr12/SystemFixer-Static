@@ -18,5 +18,5 @@ def score_severity(findings):
 
         scored.append(f)
 
-    print(f"[severity_scorer] Assigned normalized severity to {len(scored)} findings")
+    print(f"[severity_scoring] Assigned normalized severity to {len(scored)} findings")
     return scored
