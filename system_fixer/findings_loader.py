@@ -1,28 +1,18 @@
 import json
 import os
-from module_loader import load_modules
 
-def load_findings(path):
-    # Load existing findings (JSON)
-    base_findings = []
-    if os.path.exists(path):
-        with open(path, "r") as f:
-            base_findings = json.load(f)
+INPUT_FILE = "raw_findings.json"
 
-    # Load modules
-    modules = load_modules()
+def load_findings():
+    if not os.path.exists(INPUT_FILE):
+        print(f"[findings_loader] No {INPUT_FILE} found, returning empty list")
+        return []
 
-    # Run each module's safe internal scan() if available
-    module_findings = []
-    for name, module in modules.items():
-        if hasattr(module, "scan"):
-            try:
-                result = module.scan()
-                if isinstance(result, list):
-                    module_findings.extend(result)
-            except Exception:
-                # Fail-safe: module errors never break pipeline
-                continue
-
-    # Combine JSON findings + module findings
-    return base_findings + module_findings
+    try:
+        with open(INPUT_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            print(f"[findings_loader] Loaded {len(data)} findings from {INPUT_FILE}")
+            return data
+    except Exception as e:
+        print(f"[findings_loader] Error loading findings: {e}")
+        return []
