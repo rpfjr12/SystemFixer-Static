@@ -1,0 +1,29 @@
+name: Run SystemFixer
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install -r requirements.txt || true
+
+      - name: Run pipeline
+        run: python -c "from system_fixer.pipeline import run_pipeline; run_pipeline()"
+
+      - name: Commit results
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add output/ submissions/ dashboard/data.js || true
+          git commit -m "auto run" || true
+          git push || true
