@@ -3,7 +3,7 @@ name: Run SystemFixer
 on:
   workflow_dispatch:
   schedule:
-    - cron: "30 6 * * *"   # Runs every day at 06:30 UTC
+    - cron: "30 6 * * *"
 
 jobs:
   run:
@@ -15,6 +15,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Add repo to PYTHONPATH
+        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
 
       - name: Install deps
         run: pip install -r requirements.txt || true
