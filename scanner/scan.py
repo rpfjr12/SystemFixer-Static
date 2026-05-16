@@ -3,6 +3,8 @@ import requests
 import os
 from datetime import datetime
 
+OUTPUT_DIR = "data"
+
 def load_programs():
     with open("programs.json", "r") as f:
         return json.load(f)
@@ -41,9 +43,10 @@ def scan_target(url):
     return findings
 
 def save_findings(program, target, findings):
-    os.makedirs("data", exist_ok=True)
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
     date = datetime.utcnow().strftime("%Y-%m-%d")
-    filename = f"data/{program['id']}-{date}.json"
+    filename = f"{program['id']}-{date}.json"
+    path = os.path.join(OUTPUT_DIR, filename)
 
     output = []
     for sev, title in findings:
@@ -55,8 +58,10 @@ def save_findings(program, target, findings):
             "date": date
         })
 
-    with open(filename, "w") as f:
-        json.dump(output, f, indent=2)
+    with open(path, "w") as f:
+        json.dump(output, f, indent=4)
+
+    print(f"[scanner] Saved: {path}")
 
 def main():
     programs = load_programs()
