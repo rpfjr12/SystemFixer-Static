@@ -1,21 +1,47 @@
-import datetime
+def format_submission(finding):
+    """
+    Produces a clean, platform-ready submission text block
+    for HackerOne, Bugcrowd, Intigriti, etc.
+    """
 
-TEMPLATE_PATH = "system-fixer/templates/submission_template.md"
+    title = finding.get("title", "Untitled Finding")
+    target = finding.get("target", "Unknown Target")
+    severity = finding.get("severity", "UNRATED")
+    impact = finding.get("impact", "")
+    repro = finding.get("reproduction_steps", "")
+    description = finding.get("description", "")
+    tags = finding.get("intelligence", {}).get("tags", [])
+    money_score = finding.get("money_score", 0)
 
-def load_template():
-    with open(TEMPLATE_PATH, "r") as f:
-        return f.read()
+    submission = f"""
+# {title}
 
-def format_submission(program, finding):
-    template = load_template()
+**Target:** {target}  
+**Severity:** {severity}  
+**Money Score:** {money_score}  
+**Tags:** {", ".join(tags) if tags else "None"}
 
-    return template.format(
-        program=program,
-        title=finding.get("title", "Untitled Finding"),
-        severity=finding.get("severity", "LOW"),
-        score=finding.get("score", 0),
-        impact=finding.get("impact", "No impact provided"),
-        description=finding.get("description", "No description provided"),
-        steps=finding.get("steps", "No steps provided"),
-        timestamp=datetime.datetime.utcnow().isoformat() + "Z"
-    )
+---
+
+## Summary
+{description}
+
+---
+
+## Impact
+{impact}
+
+---
+
+## Steps to Reproduce
+{repro}
+
+---
+
+## Additional Notes
+- Automatically enriched by internal analysis engine
+- Intelligence tags applied: {", ".join(tags) if tags else "None"}
+- Money score used for prioritization: {money_score}
+"""
+
+    return submission.strip()
