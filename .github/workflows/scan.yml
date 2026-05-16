@@ -2,38 +2,30 @@ name: Autonomous Daily Scan
 
 on:
   schedule:
-    - cron: "0 6 * * *"   # Runs every day at 06:00 UTC
-  workflow_dispatch:       # Allows manual Run Workflow button
+    - cron: "0 5 * * *"
+  workflow_dispatch:
 
 jobs:
   scan:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12"
 
-      - name: Install dependencies
-        run: |
-          pip install requests dnspython
+      - name: Install deps
+        run: pip install -r requirements.txt || true
 
       - name: Run scanner
-        run: |
-          python scanner/scan.py
+        run: python scanner/scan.py
 
-      - name: Generate dashboard data
+      - name: Commit scan results
         run: |
-          python scripts/generate_data.py
-
-      - name: Commit updated dashboard data
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
-          git add data/*.json dashboard/data.js || true
-          git commit -m "Daily scan update" || true
-          git push
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add data/scan_results.json || true
+          git commit -m "auto: scan results" || true
+          git push || true
