@@ -1,0 +1,19 @@
+name: Chain Scanner to Pipeline
+
+on:
+  workflow_run:
+    workflows: ["Fetch Programs", "Autonomous Daily Scan"]
+    types:
+      - completed
+
+jobs:
+  chain:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger pipeline
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: "Run SystemFixer"
+          token: ${{ secrets.GITHUB_TOKEN }}
