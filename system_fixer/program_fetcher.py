@@ -1,32 +1,14 @@
 import requests
 import json
 
-def fetch_hackerone():
-    url = "https://raw.githubusercontent.com/arkadiyt/bounty-targets-data/master/data/hackerone_data.json"
-    try:
-        data = requests.get(url, timeout=10).json()
-        return [p["url"] for p in data if "url" in p]
-    except:
-        return []
+SOURCES = {
+    "hackerone": "https://raw.githubusercontent.com/arkadiyt/bounty-targets-data/master/data/hackerone_data.json",
+    "bugcrowd": "https://raw.githubusercontent.com/arkadiyt/bounty-targets-data/master/data/bugcrowd_data.json",
+    "intigriti": "https://raw.githubusercontent.com/arkadiyt/bounty-targets-data/master/data/intigriti_data.json",
+    "yeswehack": "https://raw.githubusercontent.com/arkadiyt/bounty-targets-data/master/data/yeswehack_data.json"
+}
 
-def fetch_bugcrowd():
-    url = "https://raw.githubusercontent.com/arkadiyt/bounty-targets-data/master/data/bugcrowd_data.json"
-    try:
-        data = requests.get(url, timeout=10).json()
-        return [p["url"] for p in data if "url" in p]
-    except:
-        return []
-
-def fetch_intigriti():
-    url = "https://raw.githubusercontent.com/arkadiyt/bounty-targets-data/master/data/intigriti_data.json"
-    try:
-        data = requests.get(url, timeout=10).json()
-        return [p["url"] for p in data if "url" in p]
-    except:
-        return []
-
-def fetch_yeswehack():
-    url = "https://raw.githubusercontent.com/arkadiyt/bounty-targets-data/master/data/yeswehack_data.json"
+def fetch_source(url):
     try:
         data = requests.get(url, timeout=10).json()
         return [p["url"] for p in data if "url" in p]
@@ -35,12 +17,8 @@ def fetch_yeswehack():
 
 def fetch_all_programs():
     programs = set()
-
-    programs.update(fetch_hackerone())
-    programs.update(fetch_bugcrowd())
-    programs.update(fetch_intigriti())
-    programs.update(fetch_yeswehack())
-
+    for name, url in SOURCES.items():
+        programs.update(fetch_source(url))
     return sorted(list(programs))
 
 def write_programs_json(path="programs.json"):
