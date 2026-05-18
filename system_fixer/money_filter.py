@@ -1,14 +1,21 @@
 def apply_money_filter(findings, min_score=0):
-    """Keep ONLY auto-verifiable, payout-worthy findings."""
+    """
+    Filter a list of finding dictionaries based on:
+    - trusted source engines
+    - minimum money score
+    - severity threshold
+    """
 
-    AUTO_ENGINES = {
+    TRUSTED_ENGINES = {
         "idor_engine",
         "ssrf_engine",
         "auth_bypass_engine",
         "rate_limit_engine",
         "sensitive_data_engine",
-        "jwt_engine"
+        "jwt_engine",
     }
+
+    SEVERITY_ORDER = {"LOW": 1, "MEDIUM": 2, "HIGH": 3, "CRITICAL": 4}
 
     filtered = []
 
@@ -17,16 +24,16 @@ def apply_money_filter(findings, min_score=0):
         score = f.get("money_score", 0)
         severity = f.get("severity", "").upper()
 
-        # Must come from an auto-verifiable engine
-        if engine not in AUTO_ENGINES:
+        # Must come from a trusted engine
+        if engine not in TRUSTED_ENGINES:
             continue
 
-        # Must meet minimum money score
+        # Must meet minimum score
         if score < min_score:
             continue
 
-        # Must be MEDIUM/HIGH/CRITICAL
-        if severity not in ["MEDIUM", "HIGH", "CRITICAL"]:
+        # Must meet severity threshold
+        if SEVERITY_ORDER.get(severity, 0) < SEVERITY_ORDER["MEDIUM"]:
             continue
 
         filtered.append(f)
