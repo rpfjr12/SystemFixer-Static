@@ -17,12 +17,12 @@ def generate_markdown_report(finding):
     fingerprint = finding.get("fingerprint", "no-fingerprint")
     money_score = finding.get("money_score", 0)
 
-    # Auto‑generated details from engines
-    description = finding.get("description", "Automated engine detected a payout‑worthy vulnerability.")
-    reproduction = finding.get("reproduction_steps", "Automated reproduction steps not provided.")
-    impact = finding.get("impact", "Automated impact analysis not provided.")
-    evidence = finding.get("evidence", "No raw evidence provided.")
-    fix = finding.get("fix", "Automated fix recommendation not provided.")
+    # Descriptive fields
+    description = finding.get("description", "No description provided.")
+    reproduction = finding.get("reproduction_steps", "No reproduction steps provided.")
+    impact = finding.get("impact", "No impact information provided.")
+    evidence = finding.get("evidence", "No evidence provided.")
+    fix = finding.get("fix", "No fix recommendation provided.")
 
     md = f"""# {title}
 
@@ -41,7 +41,7 @@ def generate_markdown_report(finding):
 
 ---
 
-## Steps to Reproduce (Auto‑Generated)
+## Steps to Reproduce
 {reproduction}
 
 ---
