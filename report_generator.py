@@ -9,6 +9,19 @@ REPORTS_DIR = "reports"
 # STRICT MODE FILTERING LOGIC
 # -----------------------------
 
+def normalize_finding(finding):
+    return {
+        "issue": (finding.get("issue") or finding.get("title") or "").strip(),
+        "severity": (finding.get("severity") or "LOW").strip(),
+        "impact": (finding.get("impact") or "").strip(),
+        "description": (finding.get("description") or "").strip(),
+        "target": (finding.get("target") or "").strip(),
+        "content_type": (finding.get("content_type") or "").strip(),
+        "date": (finding.get("date") or "").strip(),
+        "remediation": (finding.get("remediation") or "").strip(),
+    }
+
+
 def is_ui_endpoint(finding):
     """Reject API endpoints, JSON-only endpoints, and anything non-interactive."""
     url = finding.get("target", "").lower()
@@ -51,7 +64,7 @@ def is_reportable_issue(finding):
         "cors misconfiguration",
         "sensitive file exposure",
         "directory listing",
-        "idOR",
+        "idor",
         "authentication bypass",
         "broken access control",
         "csrf",
@@ -79,7 +92,8 @@ def strict_filter(finding):
 
 def generate_report(program, findings):
     """Generate a strict-mode filtered report."""
-    filtered = [f for f in findings if strict_filter(f)]
+    normalized = [normalize_finding(f) for f in findings]
+    filtered = [f for f in normalized if strict_filter(f)]
 
     if not filtered:
         return None  # No reportable findings

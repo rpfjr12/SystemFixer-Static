@@ -83,7 +83,7 @@ system-fixer/
         └── scan.yml
 Running locally
 bash
-pip install requests dnspython
+pip install -r requirements.txt
 python scanner/scan.py
 python scripts/generate_data.py
 # Open dashboard/index.html in your browser

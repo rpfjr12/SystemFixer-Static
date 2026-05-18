@@ -1,7 +1,8 @@
 import json
 import os
 
-RULES_PATH = "system-fixer/program_rules.json"
+BASE_DIR = os.path.dirname(__file__)
+RULES_PATH = os.path.join(BASE_DIR, "program_rules.json")
 
 def load_program_rules():
     if not os.path.exists(RULES_PATH):

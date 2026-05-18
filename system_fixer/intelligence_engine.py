@@ -4,7 +4,8 @@ from system_fixer.severity_engine import meets_severity_threshold
 from system_fixer.exploitability_engine import score_exploitability
 from system_fixer.false_positive_engine import is_false_positive
 
-RULES_PATH = "system-fixer/program_rules.json"
+BASE_DIR = os.path.dirname(__file__)
+RULES_PATH = os.path.join(BASE_DIR, "program_rules.json")
 
 def load_program_rules():
     if not os.path.exists(RULES_PATH):
@@ -17,8 +18,11 @@ def is_allowed_issue_type(issue, program):
     program_key = program.lower()
     issue = issue.lower()
 
+    # If there are no program-specific rules, allow issue types by default.
+    # Previously this returned False which caused all findings to be rejected
+    # when `program_rules.json` was missing or did not include the program.
     if program_key not in rules:
-        return False
+        return True
 
     allowed = rules[program_key].get("allowed_issue_types", [])
     return any(a in issue for a in allowed)
