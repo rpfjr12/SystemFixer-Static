@@ -1,7 +1,14 @@
 import json
-import requests
 import os
 from datetime import datetime
+
+# HIGH‑VALUE ENGINES ONLY
+from idor_engine import check_idor
+from ssrf_engine import check_ssrf
+from auth_bypass_engine import check_auth_bypass
+from rate_limit_engine import check_rate_limit
+from sensitive_data_engine import check_sensitive_data
+from jwt_engine import check_jwt
 
 OUTPUT_DIR = "data"
 
@@ -11,34 +18,14 @@ def load_programs():
 
 def scan_target(url):
     findings = []
-    try:
-        r = requests.get(url, timeout=10)
-        headers = r.headers
 
-        # Missing HSTS
-        if "Strict-Transport-Security" not in headers:
-            findings.append(("MEDIUM", "Missing Strict-Transport-Security (HSTS)"))
-
-        # Missing CSP
-        if "Content-Security-Policy" not in headers:
-            findings.append(("MEDIUM", "Missing Content-Security-Policy (CSP)"))
-
-        # Missing X-Frame-Options
-        if "X-Frame-Options" not in headers:
-            findings.append(("MEDIUM", "Missing X-Frame-Options"))
-
-        # Cookie HttpOnly check
-        cookies = r.cookies
-        for c in cookies:
-            if not c.has_nonstandard_attr("HttpOnly"):
-                findings.append(("MEDIUM", "Cookie missing HttpOnly flag"))
-
-        # Server version disclosure
-        if "Server" in headers:
-            findings.append(("LOW", "Server version disclosure"))
-
-    except Exception:
-        findings.append(("LOW", "Target unreachable"))
+    # ONLY payout‑worthy checks
+    findings += check_idor(url)
+    findings += check_ssrf(url)
+    findings += check_auth_bypass(url)
+    findings += check_rate_limit(url)
+    findings += check_sensitive_data(url)
+    findings += check_jwt(url)
 
     return findings
 
@@ -49,13 +36,14 @@ def save_findings(program, target, findings):
     path = os.path.join(OUTPUT_DIR, filename)
 
     output = []
-    for sev, title in findings:
+    for f in findings:
         output.append({
-            "severity": sev,
-            "title": title,
+            "severity": f.get("severity", "HIGH"),
+            "title": f.get("title", "Unknown finding"),
             "target": target,
             "program": program["name"],
-            "date": date
+            "date": date,
+            "details": f.get("details", {}),
         })
 
     with open(path, "w") as f:
