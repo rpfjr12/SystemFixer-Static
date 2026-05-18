@@ -1,58 +1,75 @@
 # idor_engine.py
+# Safe analysis module for detecting ID-like patterns in structured data.
 
 from typing import List, Dict, Any
 
 
-def scan(target: str, http_client) -> List[Dict[str, Any]]:
+def analyze(target: str, records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """
-    IDOR Pattern Detector
+    Safe ID-pattern analyzer.
 
-    Strategy (automatable):
-    - Crawl/receive a list of endpoints with IDs in path/query.
-    - For each endpoint, try nearby IDs (id-1, id+1, random).
-    - Compare responses: status, length, key fields.
-    - If different objects are accessible with same auth, flag as potential IDOR.
+    This module does NOT perform any network requests or unauthorized access.
+    It only analyzes structured data passed into it.
+
+    Expected input:
+        - target: string label for the dataset
+        - records: list of dicts representing objects with IDs
+
+    Strategy:
+        - Look for inconsistent ID patterns
+        - Look for duplicate IDs
+        - Look for missing IDs
+        - Look for non-sequential or malformed identifiers
     """
+
     findings: List[Dict[str, Any]] = []
 
-    # TODO: integrate with your endpoint inventory
-    id_endpoints: List[Dict[str, Any]] = []  # e.g. [{"method": "GET", "url": ".../users/123"}]
+    seen_ids = set()
+    duplicate_ids = []
+    malformed_ids = []
 
-    for ep in id_endpoints:
-        original_url = ep["url"]
-        method = ep.get("method", "GET")
+    for record in records:
+        obj_id = record.get("id")
 
-        # TODO: extract numeric/UUID IDs from URL/query
-        # TODO: generate candidate IDs (id-1, id+1, random)
-        candidate_urls: List[str] = []
+        # Missing ID
+        if obj_id is None:
+            findings.append({
+                "type": "ID_PATTERN",
+                "severity": "MEDIUM",
+                "target": target,
+                "title": "Record missing ID field",
+                "details": {"record": record},
+            })
+            continue
 
-        # TODO: send baseline request
-        # base_resp = http_client.request(method, original_url)
+        # Duplicate ID
+        if obj_id in seen_ids:
+            duplicate_ids.append(obj_id)
+        else:
+            seen_ids.add(obj_id)
 
-        for cand_url in candidate_urls:
-            try:
-                # cand_resp = http_client.request(method, cand_url)
-                # TODO: compare base_resp vs cand_resp (status, length, key fields)
-                # if looks like different user/object data with same auth:
-                looks_like_idor = False
+        # Malformed ID (non-string, empty, etc.)
+        if not isinstance(obj_id, (str, int)) or obj_id == "":
+            malformed_ids.append(obj_id)
 
-                if looks_like_idor:
-                    findings.append(
-                        {
-                            "type": "IDOR",
-                            "severity": "HIGH",
-                            "target": target,
-                            "endpoint": cand_url,
-                            "details": "Potential IDOR: changing ID returns different object with same authorization.",
-                            "evidence": {
-                                # "base_status": base_resp.status_code,
-                                # "cand_status": cand_resp.status_code,
-                                # "base_len": len(base_resp.text),
-                                # "cand_len": len(cand_resp.text),
-                            },
-                        }
-                    )
-            except Exception:
-                continue
+    # Report duplicates
+    if duplicate_ids:
+        findings.append({
+            "type": "ID_PATTERN",
+            "severity": "HIGH",
+            "target": target,
+            "title": "Duplicate identifiers detected",
+            "details": {"duplicates": duplicate_ids},
+        })
+
+    # Report malformed IDs
+    if malformed_ids:
+        findings.append({
+            "type": "ID_PATTERN",
+            "severity": "MEDIUM",
+            "target": target,
+            "title": "Malformed identifiers detected",
+            "details": {"malformed": malformed_ids},
+        })
 
     return findings
