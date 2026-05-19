@@ -1,54 +1,71 @@
-# pipeline.py
-# Full autonomous pipeline: fetch → normalize → evaluate → scan → filter → report
+import json
+import os
+from datetime import datetime
 
-from program_fetcher import fetch_all_programs
-from eligibility_engine import eligible
-from findings_normalizer import normalize_program
-from money_filter import filter_money_findings
-from report_generator import generate_report
+from module_loader import load_modules
 
-def scan_program(program):
-    """
-    Placeholder for your actual scanning logic.
-    This function should return a list of findings.
-    """
-    # TODO: integrate your scanner here
-    return []
+
+OUTPUT_DIR = "output"
+REPORTS_DIR = os.path.join(OUTPUT_DIR, "reports")
+SUMMARY_FILE = os.path.join(OUTPUT_DIR, "pipeline_summary.json")
+
 
 def run_pipeline():
-    print("[pipeline] Fetching programs...")
-    programs = fetch_all_programs()
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    os.makedirs(REPORTS_DIR, exist_ok=True)
 
-    print(f"[pipeline] {len(programs)} programs fetched.")
-    print("[pipeline] Normalizing scope...")
+    print("[pipeline] Loading engine modules...")
+    modules = load_modules()
 
-    normalized = [normalize_program(p) for p in programs]
+    findings = []
 
-    print("[pipeline] Evaluating eligibility...")
-    eligible_programs = [p for p in normalized if eligible(p)]
+    for module_name, module in modules.items():
+        scan_func = getattr(module, "scan", None)
 
-    print(f"[pipeline] {len(eligible_programs)} programs eligible for scanning.")
-
-    for program in eligible_programs:
-        name = program.get("name", "Unknown Program")
-        print(f"\n[pipeline] Scanning: {name}")
-
-        findings = scan_program(program)
-
-        if not findings:
-            print(f"[pipeline] No findings for {name}.")
+        if not callable(scan_func):
+            print(f"[pipeline] Skipping {module_name}: missing scan()")
             continue
 
-        print(f"[pipeline] {len(findings)} findings detected. Applying money filter...")
+        try:
+            print(f"[pipeline] Running {module_name}...")
+            results = scan_func()
 
-        money_findings = filter_money_findings(findings)
+            if results is None:
+                results = []
 
-        if not money_findings:
-            print(f"[pipeline] No payout-worthy findings for {name}.")
-            continue
+            if isinstance(results, dict):
+                results = [results]
 
-        print(f"[pipeline] {len(money_findings)} payout-worthy findings. Generating report...")
+            if not isinstance(results, list):
+                print(f"[pipeline] Invalid result type from {module_name}")
+                continue
 
-        generate_report(program, money_findings)
+            findings.extend(results)
 
-    print("\n[pipeline] Completed.")
+        except Exception as e:
+            print(f"[pipeline] Error in {module_name}: {e}")
+
+    findings_file = os.path.join(REPORTS_DIR, "findings.json")
+
+    with open(findings_file, "w", encoding="utf-8") as f:
+        json.dump(findings, f, indent=2)
+
+    summary = {
+        "timestamp": datetime.utcnow().isoformat(),
+        "modules_loaded": list(modules.keys()),
+        "total_modules": len(modules),
+        "total_findings": len(findings),
+        "output_file": findings_file
+    }
+
+    with open(SUMMARY_FILE, "w", encoding="utf-8") as f:
+        json.dump(summary, f, indent=2)
+
+    if os.path.exists(findings_file) and os.path.exists(SUMMARY_FILE):
+        print("[pipeline] Pipeline completed successfully.")
+        print(f"[pipeline] Findings saved to: {findings_file}")
+        print(f"[pipeline] Summary saved to: {SUMMARY_FILE}")
+
+
+if __name__ == "__main__":
+    run_pipeline()
