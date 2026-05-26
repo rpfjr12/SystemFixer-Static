@@ -24,11 +24,6 @@ check_rate_limit = _try_import('rate_limit_engine', 'check_rate_limit')
 check_sensitive_data = _try_import('sensitive_data_engine', 'check_sensitive_data')
 check_jwt = _try_import('jwt_engine', 'check_jwt')
 
-# Build engines list, excluding any that failed to import
-def _available_engines():
-    engines = [check_idor, check_ssrf, check_auth_bypass, check_rate_limit, check_sensitive_data, check_jwt]
-    return [e for e in engines if callable(e)]
-
 OUTPUT_DIR = "data"
 DEFAULT_TIMEOUT = 10
 
@@ -40,7 +35,14 @@ def scan_target(url):
     """Run payout-worthy checks on a single target and return list of findings dicts."""
     findings = []
 
-    engines = _available_engines()
+    engines = [
+        check_idor,
+        check_ssrf,
+        check_auth_bypass,
+        check_rate_limit,
+        check_sensitive_data,
+        check_jwt,
+    ]
 
     # Run each engine and collect results
     for engine in engines:

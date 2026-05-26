@@ -1,30 +1,86 @@
 [
   {
+    "issue": "Missing Strict-Transport-Security (HSTS)",
     "severity": "MEDIUM",
-    "title": "Missing Strict-Transport-Security (HSTS)",
-    "target": "https://api.binance.com",
+    "impact": "",
+    "description": "Missing Strict-Transport-Security (HSTS)",
+    "target": "https://binance.com",
     "program": "Binance",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {}
   },
   {
+    "issue": "Missing Content-Security-Policy (CSP)",
     "severity": "MEDIUM",
-    "title": "Missing Content-Security-Policy (CSP)",
-    "target": "https://api.binance.com",
+    "impact": "",
+    "description": "Missing Content-Security-Policy (CSP)",
+    "target": "https://binance.com",
     "program": "Binance",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {}
   },
   {
+    "issue": "Missing X-Frame-Options",
     "severity": "MEDIUM",
-    "title": "Missing X-Frame-Options",
-    "target": "https://api.binance.com",
+    "impact": "",
+    "description": "Missing X-Frame-Options",
+    "target": "https://binance.com",
     "program": "Binance",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {}
   },
   {
+    "issue": "Server version disclosure",
     "severity": "LOW",
-    "title": "Server version disclosure",
+    "impact": "",
+    "description": "Server version disclosure",
+    "target": "https://binance.com",
+    "program": "Binance",
+    "date": "2026-05-18",
+    "details": {
+      "server": "CloudFront"
+    }
+  },
+  {
+    "issue": "Missing Strict-Transport-Security (HSTS)",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Missing Strict-Transport-Security (HSTS)",
     "target": "https://api.binance.com",
     "program": "Binance",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {}
+  },
+  {
+    "issue": "Missing Content-Security-Policy (CSP)",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Missing Content-Security-Policy (CSP)",
+    "target": "https://api.binance.com",
+    "program": "Binance",
+    "date": "2026-05-18",
+    "details": {}
+  },
+  {
+    "issue": "Missing X-Frame-Options",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Missing X-Frame-Options",
+    "target": "https://api.binance.com",
+    "program": "Binance",
+    "date": "2026-05-18",
+    "details": {}
+  },
+  {
+    "issue": "Server version disclosure",
+    "severity": "LOW",
+    "impact": "",
+    "description": "Server version disclosure",
+    "target": "https://api.binance.com",
+    "program": "Binance",
+    "date": "2026-05-18",
+    "details": {
+      "server": "CloudFront"
+    }
   }
 ]

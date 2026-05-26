@@ -1,23 +1,64 @@
 [
   {
+    "issue": "Missing Content-Security-Policy (CSP)",
     "severity": "MEDIUM",
-    "title": "Missing Strict-Transport-Security (HSTS)",
-    "target": "https://api.gitlab.com",
+    "impact": "",
+    "description": "Missing Content-Security-Policy (CSP)",
+    "target": "https://gitlab.com",
     "program": "GitLab",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {}
   },
   {
+    "issue": "Missing X-Frame-Options",
     "severity": "MEDIUM",
-    "title": "Missing Content-Security-Policy (CSP)",
-    "target": "https://api.gitlab.com",
+    "impact": "",
+    "description": "Missing X-Frame-Options",
+    "target": "https://gitlab.com",
     "program": "GitLab",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {}
   },
   {
+    "issue": "Server version disclosure",
+    "severity": "LOW",
+    "impact": "",
+    "description": "Server version disclosure",
+    "target": "https://gitlab.com",
+    "program": "GitLab",
+    "date": "2026-05-18",
+    "details": {
+      "server": "cloudflare"
+    }
+  },
+  {
+    "issue": "Missing Strict-Transport-Security (HSTS)",
     "severity": "MEDIUM",
-    "title": "Missing X-Frame-Options",
+    "impact": "",
+    "description": "Missing Strict-Transport-Security (HSTS)",
     "target": "https://api.gitlab.com",
     "program": "GitLab",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {}
+  },
+  {
+    "issue": "Missing Content-Security-Policy (CSP)",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Missing Content-Security-Policy (CSP)",
+    "target": "https://api.gitlab.com",
+    "program": "GitLab",
+    "date": "2026-05-18",
+    "details": {}
+  },
+  {
+    "issue": "Missing X-Frame-Options",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Missing X-Frame-Options",
+    "target": "https://api.gitlab.com",
+    "program": "GitLab",
+    "date": "2026-05-18",
+    "details": {}
   }
 ]

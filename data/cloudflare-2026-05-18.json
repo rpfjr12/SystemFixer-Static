@@ -1,16 +1,108 @@
 [
   {
-    "severity": "MEDIUM",
-    "title": "Missing X-Frame-Options",
-    "target": "https://api.cloudflare.com",
+    "issue": "Server version disclosure",
+    "severity": "LOW",
+    "impact": "",
+    "description": "Server version disclosure",
+    "target": "https://cloudflare.com",
     "program": "Cloudflare",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {
+      "server": "cloudflare"
+    }
   },
   {
-    "severity": "LOW",
-    "title": "Server version disclosure",
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://cloudflare.com",
+    "program": "Cloudflare",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "_ga"
+    }
+  },
+  {
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://cloudflare.com",
+    "program": "Cloudflare",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "cfz_google-analytics_v4"
+    }
+  },
+  {
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://cloudflare.com",
+    "program": "Cloudflare",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "cfz_adobe"
+    }
+  },
+  {
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://cloudflare.com",
+    "program": "Cloudflare",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "kndctr_8AD56F28618A50850A495FB6_AdobeOrg_identity"
+    }
+  },
+  {
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://cloudflare.com",
+    "program": "Cloudflare",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "__cf_bm"
+    }
+  },
+  {
+    "issue": "Missing X-Frame-Options",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Missing X-Frame-Options",
     "target": "https://api.cloudflare.com",
     "program": "Cloudflare",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {}
+  },
+  {
+    "issue": "Server version disclosure",
+    "severity": "LOW",
+    "impact": "",
+    "description": "Server version disclosure",
+    "target": "https://api.cloudflare.com",
+    "program": "Cloudflare",
+    "date": "2026-05-18",
+    "details": {
+      "server": "cloudflare"
+    }
+  },
+  {
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://api.cloudflare.com",
+    "program": "Cloudflare",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "__cf_bm"
+    }
   }
 ]

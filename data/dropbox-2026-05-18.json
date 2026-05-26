@@ -1,16 +1,108 @@
 [
   {
-    "severity": "MEDIUM",
-    "title": "Missing X-Frame-Options",
-    "target": "https://api.dropboxapi.com",
+    "issue": "Server version disclosure",
+    "severity": "LOW",
+    "impact": "",
+    "description": "Server version disclosure",
+    "target": "https://dropbox.com",
     "program": "Dropbox",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {
+      "server": "envoy"
+    }
   },
   {
-    "severity": "LOW",
-    "title": "Server version disclosure",
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://dropbox.com",
+    "program": "Dropbox",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "gvc"
+    }
+  },
+  {
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://dropbox.com",
+    "program": "Dropbox",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "__Host-js_csrf"
+    }
+  },
+  {
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://dropbox.com",
+    "program": "Dropbox",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "__Host-ss"
+    }
+  },
+  {
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://dropbox.com",
+    "program": "Dropbox",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "t"
+    }
+  },
+  {
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://dropbox.com",
+    "program": "Dropbox",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "locale"
+    }
+  },
+  {
+    "issue": "Missing X-Frame-Options",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Missing X-Frame-Options",
     "target": "https://api.dropboxapi.com",
     "program": "Dropbox",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {}
+  },
+  {
+    "issue": "Server version disclosure",
+    "severity": "LOW",
+    "impact": "",
+    "description": "Server version disclosure",
+    "target": "https://api.dropboxapi.com",
+    "program": "Dropbox",
+    "date": "2026-05-18",
+    "details": {
+      "server": "envoy"
+    }
+  },
+  {
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://api.dropboxapi.com",
+    "program": "Dropbox",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "gvc"
+    }
   }
 ]

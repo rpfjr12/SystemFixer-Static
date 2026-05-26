@@ -1,23 +1,58 @@
 [
   {
-    "severity": "MEDIUM",
-    "title": "Missing Content-Security-Policy (CSP)",
-    "target": "https://api.coinbase.com",
-    "program": "Coinbase",
-    "date": "2026-05-18"
-  },
-  {
-    "severity": "MEDIUM",
-    "title": "Missing X-Frame-Options",
-    "target": "https://api.coinbase.com",
-    "program": "Coinbase",
-    "date": "2026-05-18"
-  },
-  {
+    "issue": "Server version disclosure",
     "severity": "LOW",
-    "title": "Server version disclosure",
+    "impact": "",
+    "description": "Server version disclosure",
+    "target": "https://coinbase.com",
+    "program": "Coinbase",
+    "date": "2026-05-18",
+    "details": {
+      "server": "cloudflare"
+    }
+  },
+  {
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://coinbase.com",
+    "program": "Coinbase",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "cb_dm"
+    }
+  },
+  {
+    "issue": "Missing Content-Security-Policy (CSP)",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Missing Content-Security-Policy (CSP)",
     "target": "https://api.coinbase.com",
     "program": "Coinbase",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {}
+  },
+  {
+    "issue": "Missing X-Frame-Options",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Missing X-Frame-Options",
+    "target": "https://api.coinbase.com",
+    "program": "Coinbase",
+    "date": "2026-05-18",
+    "details": {}
+  },
+  {
+    "issue": "Server version disclosure",
+    "severity": "LOW",
+    "impact": "",
+    "description": "Server version disclosure",
+    "target": "https://api.coinbase.com",
+    "program": "Coinbase",
+    "date": "2026-05-18",
+    "details": {
+      "server": "Vercel"
+    }
   }
 ]

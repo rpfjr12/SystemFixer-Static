@@ -1,16 +1,56 @@
 [
   {
+    "issue": "Missing Strict-Transport-Security (HSTS)",
     "severity": "MEDIUM",
-    "title": "Missing Strict-Transport-Security (HSTS)",
-    "target": "https://api.digitalocean.com",
+    "impact": "",
+    "description": "Missing Strict-Transport-Security (HSTS)",
+    "target": "https://digitalocean.com",
     "program": "DigitalOcean",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {}
   },
   {
+    "issue": "Missing Content-Security-Policy (CSP)",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Missing Content-Security-Policy (CSP)",
+    "target": "https://digitalocean.com",
+    "program": "DigitalOcean",
+    "date": "2026-05-18",
+    "details": {}
+  },
+  {
+    "issue": "Server version disclosure",
     "severity": "LOW",
-    "title": "Server version disclosure",
+    "impact": "",
+    "description": "Server version disclosure",
+    "target": "https://digitalocean.com",
+    "program": "DigitalOcean",
+    "date": "2026-05-18",
+    "details": {
+      "server": "cloudflare"
+    }
+  },
+  {
+    "issue": "Missing Strict-Transport-Security (HSTS)",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Missing Strict-Transport-Security (HSTS)",
     "target": "https://api.digitalocean.com",
     "program": "DigitalOcean",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {}
+  },
+  {
+    "issue": "Server version disclosure",
+    "severity": "LOW",
+    "impact": "",
+    "description": "Server version disclosure",
+    "target": "https://api.digitalocean.com",
+    "program": "DigitalOcean",
+    "date": "2026-05-18",
+    "details": {
+      "server": "cloudflare"
+    }
   }
 ]

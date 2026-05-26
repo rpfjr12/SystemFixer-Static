@@ -1,23 +1,68 @@
 [
   {
+    "issue": "Missing X-Frame-Options",
     "severity": "MEDIUM",
-    "title": "Missing Content-Security-Policy (CSP)",
-    "target": "https://api.paypal.com",
+    "impact": "",
+    "description": "Missing X-Frame-Options",
+    "target": "https://paypal.com",
     "program": "PayPal",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {}
   },
   {
+    "issue": "Cookie missing HttpOnly flag",
     "severity": "MEDIUM",
-    "title": "Missing X-Frame-Options",
-    "target": "https://api.paypal.com",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://paypal.com",
     "program": "PayPal",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "LANG"
+    }
   },
   {
-    "severity": "LOW",
-    "title": "Server version disclosure",
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://paypal.com",
+    "program": "PayPal",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "ts"
+    }
+  },
+  {
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://paypal.com",
+    "program": "PayPal",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "ts_c"
+    }
+  },
+  {
+    "issue": "Missing Content-Security-Policy (CSP)",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Missing Content-Security-Policy (CSP)",
     "target": "https://api.paypal.com",
     "program": "PayPal",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {}
+  },
+  {
+    "issue": "Missing X-Frame-Options",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Missing X-Frame-Options",
+    "target": "https://api.paypal.com",
+    "program": "PayPal",
+    "date": "2026-05-18",
+    "details": {}
   }
 ]

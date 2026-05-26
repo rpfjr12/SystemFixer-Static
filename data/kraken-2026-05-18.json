@@ -1,16 +1,70 @@
 [
   {
+    "issue": "Missing Content-Security-Policy (CSP)",
     "severity": "MEDIUM",
-    "title": "Missing Content-Security-Policy (CSP)",
-    "target": "https://api.kraken.com",
+    "impact": "",
+    "description": "Missing Content-Security-Policy (CSP)",
+    "target": "https://kraken.com",
     "program": "Kraken",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {}
   },
   {
+    "issue": "Server version disclosure",
     "severity": "LOW",
-    "title": "Server version disclosure",
+    "impact": "",
+    "description": "Server version disclosure",
+    "target": "https://kraken.com",
+    "program": "Kraken",
+    "date": "2026-05-18",
+    "details": {
+      "server": "cloudflare"
+    }
+  },
+  {
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://kraken.com",
+    "program": "Kraken",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "__cf_bm"
+    }
+  },
+  {
+    "issue": "Missing Content-Security-Policy (CSP)",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Missing Content-Security-Policy (CSP)",
     "target": "https://api.kraken.com",
     "program": "Kraken",
-    "date": "2026-05-18"
+    "date": "2026-05-18",
+    "details": {}
+  },
+  {
+    "issue": "Server version disclosure",
+    "severity": "LOW",
+    "impact": "",
+    "description": "Server version disclosure",
+    "target": "https://api.kraken.com",
+    "program": "Kraken",
+    "date": "2026-05-18",
+    "details": {
+      "server": "cloudflare"
+    }
+  },
+  {
+    "issue": "Cookie missing HttpOnly flag",
+    "severity": "MEDIUM",
+    "impact": "",
+    "description": "Cookie missing HttpOnly flag",
+    "target": "https://api.kraken.com",
+    "program": "Kraken",
+    "date": "2026-05-18",
+    "details": {
+      "cookie": "__cf_bm"
+    }
   }
 ]
