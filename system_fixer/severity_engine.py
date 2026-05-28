@@ -23,7 +23,7 @@ def severity_value(sev):
 
 def meets_severity_threshold(program, severity):
     rules = load_program_rules()
-    program_key = program.lower()
+    program_key = program.lower() if isinstance(program, str) else (program.get("id") or program.get("name") or "").lower()
 
     if program_key not in rules:
         # default strict mode: MEDIUM+

@@ -8,4 +8,10 @@ __all__ = [
     "report_filter",
     "intelligence_engine",
     "false_positive_engine",
+    "scope_manager",
+    "safety_kernel",
+    "event_logger",
+    "learning",
+    "orchestrator",
+    "scheduler",
 ]

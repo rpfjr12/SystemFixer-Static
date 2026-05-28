@@ -1,0 +1,10 @@
+{"timestamp": "2026-05-28T13:29:27Z", "event": "backpressure", "message": "Pending task queue exceeded threshold.", "metadata": {"pending_tasks": 3}}
+{"timestamp": "2026-05-28T13:29:27Z", "event": "scheduler_run", "message": "Processing queued tasks.", "metadata": {"task_count": 1}}
+{"timestamp": "2026-05-28T13:29:27Z", "event": "scheduler_cycle_complete", "message": "Cycle complete", "metadata": {"processed_reports": 1, "total_findings": 1}}
+{"timestamp": "2026-05-28T13:29:27Z", "event": "scheduler_run", "message": "Processing queued tasks.", "metadata": {"task_count": 1}}
+{"timestamp": "2026-05-28T13:29:27Z", "event": "scheduler_cycle_complete", "message": "Cycle complete", "metadata": {"processed_reports": 1, "total_findings": 1}}
+{"timestamp": "2026-05-28T13:29:43Z", "event": "backpressure", "message": "Pending task queue exceeded threshold.", "metadata": {"pending_tasks": 3}}
+{"timestamp": "2026-05-28T13:29:43Z", "event": "scheduler_run", "message": "Processing queued tasks.", "metadata": {"task_count": 1}}
+{"timestamp": "2026-05-28T13:29:43Z", "event": "scheduler_cycle_complete", "message": "Cycle complete", "metadata": {"processed_reports": 1, "total_findings": 1}}
+{"timestamp": "2026-05-28T13:29:43Z", "event": "scheduler_run", "message": "Processing queued tasks.", "metadata": {"task_count": 1}}
+{"timestamp": "2026-05-28T13:29:43Z", "event": "scheduler_cycle_complete", "message": "Cycle complete", "metadata": {"processed_reports": 1, "total_findings": 1}}

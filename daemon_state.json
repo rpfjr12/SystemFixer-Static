@@ -1,0 +1,13 @@
+{
+  "pid": 63114,
+  "started": 1779975102,
+  "last_heartbeat": 1779975107,
+  "uptime_seconds": 5,
+  "cycles_completed": 0,
+  "total_findings": 0,
+  "total_queued": 0,
+  "estimated_revenue": 0,
+  "status": "stopped",
+  "last_error": "'AutonomousScheduler' object has no attribute 'run_cycle'",
+  "error_count": 2
+}

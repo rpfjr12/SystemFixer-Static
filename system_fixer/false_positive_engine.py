@@ -55,17 +55,29 @@ def is_false_positive(finding, program):
         "missing referrer-policy"
     ]
     if any(h in issue for h in header_noise):
-        return True
+        rules = load_program_rules()
+        program_key = program.lower()
+        allow_header = rules.get(program_key, {}).get("allow_header_issues", False)
+        if not allow_header:
+            return True
 
     # -------------------------
-    # 5. Program-specific disallowed issue types
+    # 5. Program-specific API filtering
     # -------------------------
     rules = load_program_rules()
-    program_key = program.lower()
+    program_key = program.lower() if isinstance(program, str) else (program.get("id") or program.get("name") or "").lower()
+    allow_api_findings = rules.get(program_key, {}).get("allow_api_findings", False)
+    if not allow_api_findings and ("/api" in target or "api." in target):
+        api_noise = ["clickjack", "frame", "csp", "xss", "csrf", "open redirect"]
+        if any(k in issue for k in api_noise):
+            return True
 
+    # -------------------------
+    # 6. Program-specific disallowed issue types
+    # -------------------------
     if program_key in rules:
         allowed = rules[program_key].get("allowed_issue_types", [])
-        if not any(a in issue for a in allowed):
+        if allowed and not any(a in issue for a in allowed):
             return True
 
     return False

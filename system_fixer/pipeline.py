@@ -8,8 +8,7 @@ def run_pipeline(program, findings_path):
     if not raw:
         return []
 
-    # First normalize all raw findings, then validate the normalized entries.
+    # Normalize raw findings, then validate the normalized entries.
     normalized = [normalize_finding(f) for f in raw]
-    # Skip strict validation here for debugging; return all normalized findings
-    # normalized = [f for f in normalized if is_valid_finding(f)]
-    return apply_strict_mode(program, normalized)
+    validated = [f for f in normalized if is_valid_finding(f)]
+    return apply_strict_mode(program, validated)
